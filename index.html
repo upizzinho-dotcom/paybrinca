@@ -1,1025 +1,442 @@
 
 <!DOCTYPE html>
-<html lang="pt">
+<html lang="pt-PT">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>PayBrinca</title>
-
 <style>
 *{box-sizing:border-box}
-
-body{
- margin:0;
- font-family:Arial,sans-serif;
- background:#f1f5f9;
- color:#172b45;
-}
-
-header{
- background:#1769d2;
- color:white;
- padding:22px;
- text-align:center;
-}
-
-header h1{margin:0;font-size:28px}
-
-header p{font-size:12px}
-
-.notice{
- background:#fff2ce;
- color:#805600;
- text-align:center;
- padding:11px;
- font-size:12px;
-}
-
-nav{
- display:flex;
- overflow-x:auto;
- background:white;
- position:sticky;
- top:0;
- z-index:5;
- box-shadow:0 2px 8px #0001;
-}
-
-nav button{
- flex:1;
- min-width:75px;
- padding:15px 7px;
- border:0;
- background:white;
- color:#60738a;
- font-weight:bold;
- cursor:pointer;
-}
-
-nav button.active{
- color:#1769d2;
- border-bottom:3px solid #1769d2;
-}
-
-main{
- max-width:650px;
- margin:25px auto;
- padding:0 15px;
-}
-
-.panel{
- display:none;
- background:white;
- padding:22px;
- border-radius:16px;
- box-shadow:0 3px 14px #0000000a;
-}
-
+body{margin:0;font-family:Arial,sans-serif;background:#f3f6fb;color:#202b3c}
+header{background:#1769e0;color:white;padding:22px;text-align:center}
+header h1{margin:0;font-size:27px}
+header p{margin:6px 0 0;opacity:.85}
+nav{display:flex;justify-content:center;gap:8px;flex-wrap:wrap;background:white;padding:12px;box-shadow:0 2px 8px #0001}
+nav button{border:0;background:#edf3fc;color:#24518c;padding:11px 15px;border-radius:9px;cursor:pointer;font-weight:bold}
+nav button.active{background:#1769e0;color:white}
+main{max-width:850px;margin:22px auto;padding:0 14px}
+.panel{display:none;background:white;padding:20px;border-radius:15px;box-shadow:0 3px 14px #0000000d}
 .panel.active{display:block}
-
-h2{color:#1769d2;margin-top:0}
-
-label{
- display:block;
- margin:15px 0 7px;
- font-weight:bold;
- font-size:14px;
-}
-
-input{
- width:100%;
- padding:13px;
- border:1px solid #d6dfeb;
- border-radius:9px;
- font-size:16px;
-}
-
-.action{
- width:100%;
- padding:14px;
- border:0;
- border-radius:9px;
- background:#1769d2;
- color:white;
- font-size:15px;
- font-weight:bold;
- margin-top:15px;
- cursor:pointer;
-}
-
-.secondary{background:#64748b}
-.danger{background:#dc4444}
-
-.result{
- background:#e9f5ed;
- padding:17px;
- border-radius:12px;
- margin-top:15px;
- text-align:center;
- border:1px solid #a8dbb5;
-}
-
-.product,.cartitem,.payment{
- background:#f1f6fc;
- padding:15px;
- border-radius:12px;
- margin-top:12px;
-}
-
-.row{
- display:flex;
- justify-content:space-between;
- align-items:center;
- gap:10px;
-}
-
-.price{
- color:#1769d2;
- font-size:19px;
- font-weight:bold;
- margin:9px 0;
-}
-
-.small{
- font-size:12px;
- color:#718096;
-}
-
-.remove{
- background:#fee2e2;
- color:#b91c1c;
- border:0;
- padding:9px 12px;
- border-radius:7px;
- cursor:pointer;
-}
-
-.add{
- background:#1769d2;
- color:white;
- border:0;
- padding:10px;
- border-radius:8px;
- cursor:pointer;
-}
-
-.quantity{
- width:65px;
- padding:8px;
-}
-
-.total{
- background:#e7f1ff;
- padding:18px;
- border-radius:12px;
- margin-top:18px;
- display:flex;
- justify-content:space-between;
- font-weight:bold;
- font-size:17px;
-}
-
-.empty{
- text-align:center;
- padding:25px;
- color:#718096;
-}
-
-footer{
- text-align:center;
- color:#8290a0;
- padding:25px;
- font-size:12px;
-}
-
+h2{margin-top:0}
+input,textarea{width:100%;padding:12px;margin:7px 0 13px;border:1px solid #d5deeb;border-radius:9px;font-size:15px}
+button.primary{background:#1769e0;color:white;border:0;padding:12px 17px;border-radius:9px;cursor:pointer;font-weight:bold}
+button.danger{background:#ffe9e9;color:#bd2929;border:0;padding:9px 12px;border-radius:8px;cursor:pointer}
+button.secondary{background:#edf3fc;color:#24518c;border:0;padding:9px 12px;border-radius:8px;cursor:pointer}
+.item{border:1px solid #e5eaf2;border-radius:11px;padding:14px;margin:10px 0;display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+.item p{margin:5px 0;color:#64748b}
+.price{font-weight:bold;color:#1769e0}
+.small{font-size:13px;color:#718096}
+.total{font-size:21px;font-weight:bold;margin:18px 0}
+.empty{text-align:center;color:#718096;padding:25px}
+.actions{display:flex;gap:7px;flex-wrap:wrap}
+footer{text-align:center;color:#8793a5;font-size:12px;padding:22px}
 </style>
 </head>
-
 <body>
 
 <header>
-<h1>💙 PayBrinca</h1>
-<p>A tua loja e simulador de pagamentos digitais</p>
+<h1>PayBrinca</h1>
+<p>A tua carteira digital</p>
 </header>
 
-<div class="notice">
-⚠️ SIMULADOR FICTÍCIO — NENHUM DINHEIRO É TRANSFERIDO
-</div>
-
 <nav>
-<button class="active" onclick="tab('pagar',this)">💸 Pagar</button>
-<button onclick="tab('loja',this)">🛍️ Loja</button>
-<button onclick="tab('carrinho',this)">🛒 Carrinho</button>
-<button onclick="tab('historico',this)">📋 Histórico</button>
-<button onclick="tab('itens',this)">📦 Itens</button>
+<button class="active" onclick="abrir('pagar',this)">Pagar</button>
+<button onclick="abrir('loja',this)">Loja</button>
+<button onclick="abrir('carrinho',this)">Carrinho</button>
+<button onclick="abrir('historico',this)">Histórico</button>
+<button onclick="abrir('itens',this)">Itens</button>
 </nav>
 
 <main>
 
-<!-- PAGAR -->
-
 <section id="pagar" class="panel active">
-
-<h2>Pagamento</h2>
-
-<p class="small">Simula um pagamento individual.</p>
-
+<h2>Enviar pagamento</h2>
 <label>Nome do destinatário</label>
-<input id="destinatario" placeholder="Ex: João Silva">
-
+<input id="destinatario" placeholder="Ex.: João">
+<label>Descrição</label>
+<input id="descricao" placeholder="Ex.: Almoço">
 <label>Valor (€)</label>
-<input id="valor" type="number" min="0.01"
-step="0.01" placeholder="0,00">
-
-<button class="action" onclick="pagarIndividual()">
-Simular pagamento
-</button>
-
-<div id="resultado"></div>
-
+<input id="valor" type="number" min="0.01" step="0.01" placeholder="0,00">
+<button class="primary" onclick="pagar()">Confirmar pagamento</button>
 </section>
-
-<!-- LOJA -->
 
 <section id="loja" class="panel">
-
-<h2>🛍️ PayBrinca Shop</h2>
-
-<p class="small">Descobre os produtos disponíveis na loja.</p>
-
-<div id="produtosLoja"></div>
-
+<h2>Loja</h2>
+<div id="listaLoja"></div>
 </section>
-
-<!-- CARRINHO -->
 
 <section id="carrinho" class="panel">
-
-<h2>🛒 O meu carrinho</h2>
-
-<div id="conteudoCarrinho"></div>
-
-<div class="total">
-<span>Total da compra</span>
-<span id="totalCarrinho">0,00 €</span>
-</div>
-
-<button class="action" onclick="finalizarCompra()">
-💳 Simular pagamento da compra
-</button>
-
-<button class="action secondary" onclick="esvaziarCarrinho()">
-Esvaziar carrinho
-</button>
-
-<div id="resultadoCompra"></div>
-
+<h2>O meu carrinho</h2>
+<div id="listaCarrinho"></div>
+<div class="total" id="totalCarrinho">Total: 0,00 €</div>
+<button class="primary" onclick="finalizarCompra()">Finalizar compra</button>
 </section>
-
-<!-- HISTORICO -->
 
 <section id="historico" class="panel">
-
-<h2>📋 Histórico</h2>
-
+<h2>Histórico</h2>
 <div id="listaHistorico"></div>
-
-<button class="action danger" onclick="limparHistorico()">
-Limpar histórico completo
-</button>
-
 </section>
 
-<!-- GESTÃO DE PRODUTOS -->
-
 <section id="itens" class="panel">
-
-<h2>📦 Gestão de produtos</h2>
-
-<p class="small">
-Adiciona produtos para ficarem disponíveis na loja.
-</p>
-
+<h2>Adicionar produto</h2>
 <label>Nome do produto</label>
-<input id="produto" placeholder="Ex: Auscultadores">
-
-<label>Quantidade disponível</label>
-<input id="quantidade" type="number" min="1" value="1">
-
+<input id="nomeProduto" placeholder="Ex.: T-shirt">
 <label>Preço unitário (€)</label>
-<input id="preco" type="number" min="0"
-step="0.01" placeholder="0,00">
-
-<button class="action" onclick="adicionarProduto()">
-+ Adicionar produto à loja
-</button>
-
-<h3>Produtos registados</h3>
-
+<input id="precoProduto" type="number" min="0.01" step="0.01" placeholder="0,00">
+<label>Quantidade em stock</label>
+<input id="stockProduto" type="number" min="0" step="1" placeholder="Ex.: 10">
+<button class="primary" onclick="adicionarProduto()">Adicionar produto</button>
+<h2 style="margin-top:28px">Os meus produtos</h2>
 <div id="listaItens"></div>
-
 </section>
 
 </main>
 
-<footer>
-PayBrinca © 2026
-<br>Projeto independente e fictício.
-<br>Nenhum pagamento ou transferência real é realizado.
-</footer>
+<footer>PayBrinca · Aplicação independente, sem ligação a bancos ou serviços de pagamento.</footer>
 
 <script>
+const guardar = (chave, dados) => localStorage.setItem(chave, JSON.stringify(dados));
+const ler = (chave, padrao) => {
+  try {
+    const dados = JSON.parse(localStorage.getItem(chave));
+    return dados ?? padrao;
+  } catch {
+    return padrao;
+  }
+};
 
-// ===================================
-// ARMAZENAMENTO
-// ===================================
+let produtos = ler("pb_produtos", []);
+let carrinho = ler("pb_carrinho", []);
+let historico = ler("pb_historico", []);
 
-function ler(chave){
- try{
- return JSON.parse(localStorage.getItem(chave))||[];
- }catch(e){
- return [];
- }
+function idNovo(){
+  return Date.now().toString(36) + Math.random().toString(36).slice(2,9);
 }
 
-function guardar(chave,dados){
- localStorage.setItem(chave,JSON.stringify(dados));
+function euros(valor){
+  return Number(valor).toLocaleString("pt-PT", {
+    style:"currency", currency:"EUR"
+  });
 }
 
-let produtos=ler("pb_produtos");
-let carrinho=ler("pb_carrinho");
-let historico=ler("pb_historico");
-
-const euro=n=>Number(n).toLocaleString("pt-PT",{
- style:"currency",
- currency:"EUR"
-});
-
-function referencia(){
- return "PB-SIM-"+crypto.randomUUID()
- .replaceAll("-","").substring(0,12).toUpperCase();
+function guardarTudo(){
+  guardar("pb_produtos", produtos);
+  guardar("pb_carrinho", carrinho);
+  guardar("pb_historico", historico);
 }
 
-// ===================================
-// PROTEÇÃO DE TEXTO
-// ===================================
+function abrir(id, botao){
+  document.querySelectorAll(".panel").forEach(p => p.classList.remove("active"));
+  document.getElementById(id).classList.add("active");
 
-function escapar(s){
- return String(s).replace(/[&<>"']/g,c=>({
- "&":"&amp;",
- "<":"&lt;",
- ">":"&gt;",
- '"':"&quot;",
- "'":"&#39;"
- }[c]));
+  document.querySelectorAll("nav button").forEach(b => b.classList.remove("active"));
+  if(botao) botao.classList.add("active");
+
+  atualizar();
 }
 
-// ===================================
-// NAVEGAÇÃO
-// ===================================
-
-function tab(id,botao){
-
- document.querySelectorAll(".panel")
- .forEach(p=>p.classList.remove("active"));
-
- document.querySelectorAll("nav button")
- .forEach(b=>b.classList.remove("active"));
-
- document.getElementById(id).classList.add("active");
-
- botao.classList.add("active");
-
- atualizar();
+function registarHistorico(tipo, nome, valor, referencia){
+  historico.unshift({
+    id:idNovo(),
+    tipo,
+    nome,
+    valor:Number(valor),
+    referencia,
+    data:new Date().toLocaleString("pt-PT")
+  });
+  guardarTudo();
 }
 
-// ===================================
-// ADICIONAR PRODUTOS
-// ===================================
+function pagar(){
+  const nome = document.getElementById("destinatario").value.trim();
+  const descricao = document.getElementById("descricao").value.trim() || "Pagamento";
+  const valor = Number(document.getElementById("valor").value);
+
+  if(!nome || !Number.isFinite(valor) || valor <= 0){
+    alert("Preenche o destinatário e um valor válido.");
+    return;
+  }
+
+  const referencia = "PB" + Math.random().toString(36).slice(2,10).toUpperCase();
+
+  registarHistorico("Pagamento", nome + " · " + descricao, valor, referencia);
+
+  alert("Pagamento simulado com sucesso!\nNenhum dinheiro foi transferido.\nReferência: " + referencia);
+
+  document.getElementById("destinatario").value = "";
+  document.getElementById("descricao").value = "";
+  document.getElementById("valor").value = "";
+  atualizar();
+}
 
 function adicionarProduto(){
+  const nome = document.getElementById("nomeProduto").value.trim();
+  const preco = Number(document.getElementById("precoProduto").value);
+  const stock = Number(document.getElementById("stockProduto").value);
 
- let nome=document.getElementById("produto").value.trim();
+  if(!nome || !Number.isFinite(preco) || preco <= 0 ||
+     !Number.isInteger(stock) || stock < 0){
+    alert("Preenche corretamente o nome, o preço e a quantidade.");
+    return;
+  }
 
- let qtd=Number(document.getElementById("quantidade").value);
+  produtos.push({id:idNovo(), nome, preco, stock});
+  guardarTudo();
 
- let preco=Number(document.getElementById("preco").value);
+  document.getElementById("nomeProduto").value = "";
+  document.getElementById("precoProduto").value = "";
+  document.getElementById("stockProduto").value = "";
 
- if(
- !nome||
- nome.length>100||
- !Number.isInteger(qtd)||
- qtd<1||
- qtd>100000||
- !Number.isFinite(preco)||
- preco<0||
- preco>1000000
- ){
- alert("Verifica os dados do produto.");
- return;
- }
-
- produtos.push({
- id:referencia(),
- nome:nome,
- quantidade:qtd,
- preco:preco
- });
-
- guardar("pb_produtos",produtos);
-
- document.getElementById("produto").value="";
- document.getElementById("quantidade").value=1;
- document.getElementById("preco").value="";
-
- atualizar();
+  atualizar();
 }
-
-// ===================================
-// MOSTRAR LOJA
-// ===================================
-
-function mostrarProdutos(){
-
- let area=document.getElementById("produtosLoja");
-
- if(!produtos.length){
- area.innerHTML='<div class="empty">A loja ainda não tem produtos.<br>Adiciona produtos no separador Itens.</div>';
- return;
- }
-
- area.innerHTML=produtos.map(p=>`
-
- <div class="product">
-
- <h3>${escapar(p.nome)}</h3>
-
- <div class="price">${euro(p.preco)}</div>
-
- <p class="small">
- Disponíveis: ${p.quantidade}
- </p>
-
- <button class="add"
- onclick="adicionarCarrinho('${p.id}')"
- ${p.quantidade===0?"disabled":""}>
- 🛒 Adicionar ao carrinho
- </button>
-
- </div>
-
- `).join("");
-}
-
-// ===================================
-// ADICIONAR AO CARRINHO
-// ===================================
 
 function adicionarCarrinho(id){
+  const produto = produtos.find(p => p.id === id);
+  if(!produto || produto.stock <= 0){
+    alert("Produto sem stock.");
+    return;
+  }
 
- let produto=produtos.find(p=>p.id===id);
+  const linha = carrinho.find(c => c.produtoId === id);
+  const quantidadeAtual = linha ? linha.quantidade : 0;
 
- if(!produto)return;
+  if(quantidadeAtual >= produto.stock){
+    alert("Não há mais unidades disponíveis.");
+    return;
+  }
 
- let existente=carrinho.find(c=>c.id===id);
+  if(linha) linha.quantidade++;
+  else carrinho.push({produtoId:id, quantidade:1});
 
- let quantidade=existente?existente.qtd:0;
-
- if(quantidade>=produto.quantidade){
- alert("Não existem mais unidades disponíveis.");
- return;
- }
-
- if(existente){
- existente.qtd++;
- }else{
- carrinho.push({
- id:id,
- qtd:1
- });
- }
-
- guardar("pb_carrinho",carrinho);
-
- mostrarCarrinho();
-
- alert("Produto adicionado ao carrinho!");
+  guardarTudo();
+  atualizar();
+  alert("Produto adicionado ao carrinho!");
 }
 
-// ===================================
-// ALTERAR QUANTIDADES
-// ===================================
+function alterarQuantidade(id, diferenca){
+  const linha = carrinho.find(c => c.produtoId === id);
+  const produto = produtos.find(p => p.id === id);
+  if(!linha || !produto) return;
 
-function alterarQuantidade(id,valor){
+  const nova = linha.quantidade + diferenca;
 
- let produto=produtos.find(p=>p.id===id);
+  if(nova <= 0){
+    carrinho = carrinho.filter(c => c.produtoId !== id);
+  } else if(nova <= produto.stock){
+    linha.quantidade = nova;
+  } else {
+    alert("Não há stock suficiente.");
+  }
 
- let item=carrinho.find(c=>c.id===id);
-
- if(!produto||!item)return;
-
- let qtd=Number(valor);
-
- if(!Number.isInteger(qtd)||qtd<1){
- removerCarrinho(id);
- return;
- }
-
- if(qtd>produto.quantidade){
- alert("Quantidade superior ao stock disponível.");
- qtd=produto.quantidade;
- }
-
- item.qtd=qtd;
-
- guardar("pb_carrinho",carrinho);
-
- mostrarCarrinho();
+  guardarTudo();
+  atualizar();
 }
-
-// ===================================
-// REMOVER PRODUTO DO CARRINHO
-// ===================================
 
 function removerCarrinho(id){
-
- carrinho=carrinho.filter(c=>c.id!==id);
-
- guardar("pb_carrinho",carrinho);
-
- mostrarCarrinho();
+  carrinho = carrinho.filter(c => c.produtoId !== id);
+  guardarTudo();
+  atualizar();
 }
 
-function esvaziarCarrinho(){
-
- carrinho=[];
-
- guardar("pb_carrinho",carrinho);
-
- mostrarCarrinho();
+function total(){
+  return carrinho.reduce((soma, linha) => {
+    const p = produtos.find(x => x.id === linha.produtoId);
+    return soma + (p ? p.preco * linha.quantidade : 0);
+  }, 0);
 }
-
-// ===================================
-// CALCULAR TOTAL
-// ===================================
-
-function calcularTotal(){
-
- return carrinho.reduce((total,item)=>{
-
- let p=produtos.find(x=>x.id===item.id);
-
- return total+(p?p.preco*item.qtd:0);
-
- },0);
-}
-
-// ===================================
-// MOSTRAR CARRINHO
-// ===================================
-
-function mostrarCarrinho(){
-
- let area=document.getElementById("conteudoCarrinho");
-
- carrinho=carrinho.filter(c=>
- produtos.some(p=>p.id===c.id)
- );
-
- guardar("pb_carrinho",carrinho);
-
- if(!carrinho.length){
-
- area.innerHTML='<div class="empty">🛒<br>O teu carrinho está vazio.<br>Visita a loja para adicionar produtos.</div>';
-
- }else{
-
- area.innerHTML=carrinho.map(c=>{
-
- let p=produtos.find(x=>x.id===c.id);
-
- return `
-
- <div class="cartitem">
-
- <div class="row">
-
- <b>${escapar(p.nome)}</b>
-
- <button class="remove"
- onclick="removerCarrinho('${c.id}')">
- ✕
- </button>
-
- </div>
-
- <p>${euro(p.preco)} / unidade</p>
-
- <div class="row">
-
- <label>Quantidade</label>
-
- <input class="quantity"
- type="number"
- min="1"
- max="${p.quantidade}"
- value="${c.qtd}"
- onchange="alterarQuantidade('${c.id}',this.value)">
-
- </div>
-
- <p class="price">
- Subtotal: ${euro(p.preco*c.qtd)}
- </p>
-
- </div>
-
- `;
-
- }).join("");
-
- }
-
- document.getElementById("totalCarrinho").textContent=
- euro(calcularTotal());
-}
-
-// ===================================
-// FINALIZAR COMPRA
-// ===================================
 
 function finalizarCompra(){
+  if(carrinho.length === 0){
+    alert("O carrinho está vazio.");
+    return;
+  }
 
- if(!carrinho.length){
- alert("O carrinho está vazio!");
- return;
- }
+  for(const linha of carrinho){
+    const produto = produtos.find(p => p.id === linha.produtoId);
+    if(!produto || produto.stock < linha.quantidade){
+      alert("Um dos produtos já não tem stock suficiente.");
+      return;
+    }
+  }
 
- let total=calcularTotal();
+  const valor = total();
+  const resumo = carrinho.map(linha => {
+    const p = produtos.find(x => x.id === linha.produtoId);
+    return p.nome + " x" + linha.quantidade;
+  }).join(", ");
 
- if(!Number.isFinite(total)||total<=0){
- alert("Não é possível concluir esta simulação.");
- return;
- }
+  carrinho.forEach(linha => {
+    const p = produtos.find(x => x.id === linha.produtoId);
+    p.stock -= linha.quantidade;
+  });
 
- for(let c of carrinho){
+  const referencia = "PB" + Math.random().toString(36).slice(2,10).toUpperCase();
+  registarHistorico("Compra", resumo, valor, referencia);
 
- let p=produtos.find(x=>x.id===c.id);
+  carrinho = [];
+  guardarTudo();
 
- if(!p||c.qtd>p.quantidade){
- alert("Um produto já não tem quantidade suficiente.");
- return;
- }
+  alert("Compra simulada concluída!\nNenhum dinheiro foi transferido.\nTotal: " + euros(valor) + "\nReferência: " + referencia);
 
- }
-
- let referenciaCompra=referencia();
-
- let compra={
-
- id:crypto.randomUUID(),
-
- tipo:"compra",
-
- referencia:referenciaCompra,
-
- data:new Date().toLocaleString("pt-PT"),
-
- total:total,
-
- produtos:carrinho.map(c=>{
-
- let p=produtos.find(x=>x.id===c.id);
-
- return {
-
- nome:p.nome,
-
- quantidade:c.qtd,
-
- preco:p.preco,
-
- subtotal:p.preco*c.qtd
-
- };
-
- })
-
- };
-
- historico.unshift(compra);
-
- guardar("pb_historico",historico);
-
- // Atualizar stock
-
- carrinho.forEach(c=>{
-
- let p=produtos.find(x=>x.id===c.id);
-
- p.quantidade-=c.qtd;
-
- });
-
- guardar("pb_produtos",produtos);
-
- // Limpar carrinho
-
- carrinho=[];
-
- guardar("pb_carrinho",carrinho);
-
- document.getElementById("resultadoCompra").innerHTML=`
-
- <div class="result">
-
- <h3>✓ COMPRA SIMULADA!</h3>
-
- <div class="price">${euro(total)}</div>
-
- <p>Referência: <b>${referenciaCompra}</b></p>
-
- <p>${compra.data}</p>
-
- <hr>
-
- <b>SIMULAÇÃO FICTÍCIA</b>
-
- <p class="small">
- Nenhum dinheiro foi transferido.
- Esta compra não representa um pagamento real.
- </p>
-
- </div>
-
- `;
-
- atualizar();
+  atualizar();
+  abrir("historico", document.querySelectorAll("nav button")[3]);
 }
 
-// ===================================
-// PAGAMENTO INDIVIDUAL
-// ===================================
-
-function pagarIndividual(){
-
- let nome=document.getElementById("destinatario").value.trim();
-
- let valor=Number(document.getElementById("valor").value);
-
- if(
- !nome||
- nome.length>100||
- !Number.isFinite(valor)||
- valor<=0||
- valor>1000000
- ){
-
- alert("Preenche os dados corretamente.");
-
- return;
-
- }
-
- let ref=referencia();
-
- historico.unshift({
-
- id:crypto.randomUUID(),
-
- tipo:"individual",
-
- nome:nome,
-
- total:valor,
-
- referencia:ref,
-
- data:new Date().toLocaleString("pt-PT")
-
- });
-
- guardar("pb_historico",historico);
-
- document.getElementById("resultado").innerHTML=`
-
- <div class="result">
-
- <h3>✓ SIMULAÇÃO CONCLUÍDA</h3>
-
- <div class="price">${euro(valor)}</div>
-
- <p>Destinatário: ${escapar(nome)}</p>
-
- <p>Referência: ${ref}</p>
-
- <b>SIMULAÇÃO FICTÍCIA</b>
-
- <p class="small">
- Nenhum dinheiro foi transferido.
- </p>
-
- </div>
-
- `;
-
- document.getElementById("destinatario").value="";
- document.getElementById("valor").value="";
-
- atualizar();
+function apagarHistorico(id){
+  if(!confirm("Queres apagar este registo?")) return;
+  historico = historico.filter(h => h.id !== id);
+  guardarTudo();
+  atualizar();
 }
 
-// ===================================
-// MOSTRAR HISTÓRICO
-// ===================================
-
-function mostrarHistorico(){
-
- let area=document.getElementById("listaHistorico");
-
- if(!historico.length){
-
- area.innerHTML='<div class="empty">Ainda não existem pagamentos simulados.</div>';
-
- return;
-
- }
-
- area.innerHTML=historico.map((h,index)=>{
-
- let produtosHTML=h.produtos?
-
- h.produtos.map(p=>
-
- `<p class="small">
- ${escapar(p.nome)} × ${p.quantidade} — ${euro(p.subtotal)}
- </p>`
-
- ).join("")
-
- :"";
-
- return `
-
- <div class="payment">
-
- <div class="row">
-
- <b>
- ${h.tipo==="compra"?"🛍️ Compra na loja":"💸 Pagamento individual"}
- </b>
-
- <b class="price">${euro(h.total)}</b>
-
- </div>
-
- ${h.nome?
- `<p>Destinatário: ${escapar(h.nome)}</p>`:""}
-
- ${produtosHTML}
-
- <p class="small">${escapar(h.data)}</p>
-
- <p class="small">
- Referência: ${escapar(h.referencia)}
- </p>
-
- <b class="small">
- SIMULAÇÃO — SEM TRANSFERÊNCIA
- </b>
-
- <button class="action danger"
- onclick="apagarTransferencia('${h.id}')">
-
- 🗑️ Apagar esta simulação
-
- </button>
-
- </div>
-
- `;
-
- }).join("");
+function apagarProduto(id){
+  if(!confirm("Queres apagar este produto?")) return;
+  produtos = produtos.filter(p => p.id !== id);
+  carrinho = carrinho.filter(c => c.produtoId !== id);
+  guardarTudo();
+  atualizar();
 }
-
-// ===================================
-// APAGAR UMA TRANSFERÊNCIA ESPECÍFICA
-// ===================================
-
-function apagarTransferencia(id){
-
- const confirmar=confirm(
- "Tens a certeza de que queres apagar esta simulação?"
- );
-
- if(!confirmar)return;
-
- historico=historico.filter(h=>h.id!==id);
-
- guardar("pb_historico",historico);
-
- mostrarHistorico();
-}
-
-// ===================================
-// LIMPAR TODO O HISTÓRICO
-// ===================================
-
-function limparHistorico(){
-
- if(!confirm("Queres apagar todo o histórico?")){
- return;
- }
-
- historico=[];
-
- guardar("pb_historico",historico);
-
- mostrarHistorico();
-}
-
-// ===================================
-// GESTÃO DE PRODUTOS
-// ===================================
-
-function mostrarItens(){
-
- let area=document.getElementById("listaItens");
-
- if(!produtos.length){
-
- area.innerHTML='<p class="empty">Ainda não adicionaste produtos.</p>';
-
- return;
-
- }
-
- area.innerHTML=produtos.map(p=>`
-
- <div class="product">
-
- <div class="row">
-
- <b>${escapar(p.nome)}</b>
-
- <button class="remove"
- onclick="removerProduto('${p.id}')">
-
- Remover
-
- </button>
-
- </div>
-
- <p>Preço: ${euro(p.preco)}</p>
-
- <p>Quantidade: ${p.quantidade}</p>
-
- </div>
-
- `).join("");
-}
-
-// ===================================
-// REMOVER PRODUTO DA LOJA
-// ===================================
-
-function removerProduto(id){
-
- if(!confirm("Remover este produto da loja?")){
- return;
- }
-
- produtos=produtos.filter(p=>p.id!==id);
-
- carrinho=carrinho.filter(c=>c.id!==id);
-
- guardar("pb_produtos",produtos);
-
- guardar("pb_carrinho",carrinho);
-
- atualizar();
-}
-
-// ===================================
-// ATUALIZAR TUDO
-// ===================================
 
 function atualizar(){
+  const loja = document.getElementById("listaLoja");
+  const itens = document.getElementById("listaItens");
+  const listaCarrinho = document.getElementById("listaCarrinho");
+  const listaHistorico = document.getElementById("listaHistorico");
 
- mostrarProdutos();
+  loja.replaceChildren();
+  itens.replaceChildren();
+  listaCarrinho.replaceChildren();
+  listaHistorico.replaceChildren();
 
- mostrarCarrinho();
+  if(produtos.length === 0){
+    loja.innerHTML = '<p class="empty">Ainda não existem produtos na loja.</p>';
+    itens.innerHTML = '<p class="empty">Ainda não adicionaste produtos.</p>';
+  }
 
- mostrarHistorico();
+  produtos.forEach(p => {
+    const div = document.createElement("div");
+    div.className = "item";
 
- mostrarItens();
+    const info = document.createElement("div");
+    const nome = document.createElement("strong");
+    nome.textContent = p.nome;
+    const detalhe = document.createElement("p");
+    detalhe.textContent = euros(p.preco) + " · Stock: " + p.stock;
+    info.append(nome, detalhe);
 
+    const btn = document.createElement("button");
+    btn.className = "primary";
+    btn.textContent = "Adicionar ao carrinho";
+    btn.disabled = p.stock <= 0;
+    btn.onclick = () => adicionarCarrinho(p.id);
+
+    div.append(info, btn);
+    loja.append(div);
+
+    const divItem = document.createElement("div");
+    divItem.className = "item";
+
+    const infoItem = document.createElement("div");
+    const nomeItem = document.createElement("strong");
+    nomeItem.textContent = p.nome;
+    const detalheItem = document.createElement("p");
+    detalheItem.textContent = euros(p.preco) + " · Stock: " + p.stock;
+    infoItem.append(nomeItem, detalheItem);
+
+    const apagar = document.createElement("button");
+    apagar.className = "danger";
+    apagar.textContent = "Apagar";
+    apagar.onclick = () => apagarProduto(p.id);
+
+    divItem.append(infoItem, apagar);
+    itens.append(divItem);
+  });
+
+  if(carrinho.length === 0){
+    listaCarrinho.innerHTML = '<p class="empty">O teu carrinho está vazio.</p>';
+  }
+
+  carrinho.forEach(linha => {
+    const p = produtos.find(x => x.id === linha.produtoId);
+    if(!p) return;
+
+    const div = document.createElement("div");
+    div.className = "item";
+
+    const info = document.createElement("div");
+    const nome = document.createElement("strong");
+    nome.textContent = p.nome;
+    const detalhe = document.createElement("p");
+    detalhe.textContent = euros(p.preco) + " cada · Subtotal: " + euros(p.preco * linha.quantidade);
+    info.append(nome, detalhe);
+
+    const acoes = document.createElement("div");
+    acoes.className = "actions";
+
+    const menos = document.createElement("button");
+    menos.className = "secondary";
+    menos.textContent = "−";
+    menos.onclick = () => alterarQuantidade(p.id, -1);
+
+    const qtd = document.createElement("span");
+    qtd.textContent = linha.quantidade;
+    qtd.style.padding = "9px";
+
+    const mais = document.createElement("button");
+    mais.className = "secondary";
+    mais.textContent = "+";
+    mais.onclick = () => alterarQuantidade(p.id, 1);
+
+    const remover = document.createElement("button");
+    remover.className = "danger";
+    remover.textContent = "Remover";
+    remover.onclick = () => removerCarrinho(p.id);
+
+    acoes.append(menos, qtd, mais, remover);
+    div.append(info, acoes);
+    listaCarrinho.append(div);
+  });
+
+  document.getElementById("totalCarrinho").textContent = "Total: " + euros(total());
+
+  if(historico.length === 0){
+    listaHistorico.innerHTML = '<p class="empty">Ainda não existem movimentos.</p>';
+  }
+
+  historico.forEach(h => {
+    const div = document.createElement("div");
+    div.className = "item";
+
+    const info = document.createElement("div");
+    const titulo = document.createElement("strong");
+    titulo.textContent = h.tipo + " · " + h.nome;
+
+    const detalhe = document.createElement("p");
+    detalhe.textContent = h.data + " · Referência: " + h.referencia;
+
+    const valor = document.createElement("div");
+    valor.className = "price";
+    valor.textContent = euros(h.valor);
+
+    info.append(titulo, detalhe);
+
+    const apagar = document.createElement("button");
+    apagar.className = "danger";
+    apagar.textContent = "Apagar";
+    apagar.onclick = () => apagarHistorico(h.id);
+
+    const lado = document.createElement("div");
+    lado.append(valor, apagar);
+    lado.style.display = "flex";
+    lado.style.flexDirection = "column";
+    lado.style.gap = "8px";
+
+    div.append(info, lado);
+    listaHistorico.append(div);
+  });
 }
 
 atualizar();
-
 </script>
-
 </body>
 </html>
